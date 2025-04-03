@@ -1,0 +1,28 @@
+#define SENSOR_PIN A0  // LM35 connected to A0
+#define LED_PIN 9      // LED connected to Pin 9
+#define TEMP_THRESHOLD 30  // Set threshold temperature
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);   // Set LED as output
+  Serial.begin(9600);         // Start serial monitor
+}
+
+void loop() {
+  int sensorValue = analogRead(SENSOR_PIN);  // Read sensor value
+  float voltage = sensorValue * (5.0 / 1023.0);  // Convert to voltage
+  float temperature = voltage * 100.0;  // Convert to Celsius
+
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" °C");
+
+  if (temperature > TEMP_THRESHOLD) {
+    digitalWrite(LED_PIN, HIGH);  // Turn ON LED
+    Serial.println("🔥 High Temperature! LED ON");
+  } else {
+    digitalWrite(LED_PIN, LOW);   // Turn OFF LED
+    Serial.println("✅ Temperature Normal. LED OFF");
+  }
+
+  delay(1000);  // Wait 1 second before next reading
+}
